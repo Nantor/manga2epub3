@@ -1,9 +1,10 @@
 # Manga to epub3
+
 This python script download a manga from the web and saved it to the epub3 format.
-Currently the epub will generated wich a minimum of metadata.
+Currently the epub will generated with a minimum of metadata.
 Mangapanda.com is currently the only webpage wich is suported.
 
-Usage:
+### Usage:
 
     usage: main.py [-h] [-s] [-c CHAPTER] url folder
 
