@@ -19,7 +19,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--single', action='store_true',
                         help='The manga will stored in a single epub instant of a separate epub for each chapter.')
     parser.add_argument('-c', '--chapter', action='store', type=int, nargs=1, default=[None],
-                        help='Save only a specific chapter.')
+                        help='Save only a specific chapter with the chapter number CHAPTER.')
     parser.add_argument('folder', action='store', nargs=1, type=check_folder,
                         help='Path to th folder where the epub(s) will stored.')
 
