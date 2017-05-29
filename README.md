@@ -18,5 +18,5 @@ Usage:
       -s, --single          The manga will stored in a single epub instant of a
                             separate epub for each chapter.
       -c CHAPTER, --chapter CHAPTER
-                            Save only a specific chapter with the chapternuber
+                            Save only a specific chapter with the chapter number
                             CHAPTER.
