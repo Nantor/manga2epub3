@@ -1,13 +1,13 @@
+import bs4
+import math
 import os
+import pathlib
 import tempfile
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
-import urllib.error
 import uuid
-import bs4
-import pathlib
-
-import time
 
 
 class Manga:
@@ -27,12 +27,13 @@ class Manga:
                 name = "chapter " + str(chapter)
             yield Chapter(url, name)
         else:
+            l = math.ceil(math.log10(len(chapters)))
             for i, _chapter in enumerate(chapters):
                 a = "".join(_chapter.td.strings).strip()
                 url = urllib.parse.urljoin(self.__base_url, _chapter.td.a["href"])
                 name = str(a[a.find(":") + 2:]).strip()
                 if name == '':
-                    name = "chapter " + str(i + 1)
+                    name = "chapter " + str(i + 1).zfill(l)
                 yield Chapter(url, name)
 
 

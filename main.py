@@ -2,10 +2,6 @@ if __name__ == "__main__":
     import argparse
     import os
     import manga2epub3.mangapanda2epub3
-    import logging
-
-    logging.basicConfig(filename='manga.log', level=logging.DEBUG)
-
 
     def check_folder(folder):
         if not os.path.isdir(folder):
