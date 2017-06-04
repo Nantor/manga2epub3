@@ -20,6 +20,7 @@ if __name__ == "__main__":
                         help='Path to th folder where the epub(s) will stored.')
 
     # args = parser.parse_args(["ranma-12", "./ranma-12"])
+    # args = parser.parse_args(["able", "-c", "6", "./able"])
     # args = parser.parse_args(["ranma-12", "-c", "1", "D:/manga/ranma-12"])
     args = parser.parse_args()
     # args = parser.parse_args(['-h'])
