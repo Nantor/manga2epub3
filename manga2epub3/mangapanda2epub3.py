@@ -1,15 +1,15 @@
-import logging
 import multiprocessing
 import os
 import urllib.parse
-import manga2epub3.mangapanda
+
 import manga2epub3.epub3
+import manga2epub3.mangapanda
 
 
 class Manga2epub3:
     __base_url = "http://www.mangapanda.com"
     __title_manga = "{0}"
-    __title_manga_chapter = "{0} - {1}"
+    __title_manga_chapter = "{0} {1} - {2}"
     __file_name_manga = __title_manga + "epub"
     __file_name_manga_chapter = __title_manga_chapter + ".epub"
 
@@ -39,8 +39,8 @@ class Manga2epub3:
                 for chapter in self.manga.parse(self.__chapter):
                     print("process chapter: {0}".format(chapter.title))
                     file_name = self.__convert_filename(
-                        self.__file_name_manga_chapter.format(self.manga.title, chapter.title))
-                    title = self.__title_manga_chapter.format(self.manga.title, chapter.title)
+                        self.__file_name_manga_chapter.format(self.manga.title, chapter.index, chapter.title))
+                    title = self.__title_manga_chapter.format(self.manga.title, chapter.index, chapter.title)
                     file_path = os.path.join(self.dic, file_name)
                     epub = manga2epub3.epub3.Epub3(file_path, title)
                     for image in chapter.parse():
@@ -57,7 +57,6 @@ class Manga2epub3:
                     creating = []
                     for epub in epubs:
                         creating.append(pool.apply_async(epub.create))
-                        # epub.create()
                     for e in creating:
                         e.wait()
                 else:
@@ -83,13 +82,15 @@ class Manga2epub3:
                 epub.create()
             print("created epub")
 
-    def __worker(self, task, message):
+    @staticmethod
+    def __worker(task, message):
         print("start " + message)
         result = task()
         print("stop " + message)
         return result
 
-    def __convert_filename(self, filename: str):
+    @staticmethod
+    def __convert_filename(filename: str):
         return filename.replace(r'<>:"/\\|?*', '_') \
             .replace(r'<', '_') \
             .replace(r'>', '_') \

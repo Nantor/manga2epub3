@@ -1,4 +1,3 @@
-import bs4
 import math
 import os
 import pathlib
@@ -8,6 +7,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import uuid
+
+import bs4
 
 
 class Manga:
@@ -21,28 +22,31 @@ class Manga:
 
     def parse(self, chapter=None):
         chapters = self.__main_page.find(id="listing").find_all("tr")[1:]
-        l = math.ceil(math.log10(len(chapters)))
+        zeros = math.ceil(math.log10(len(chapters)))
         if chapter is not None:
             a = "".join(chapters[chapter - 1].td.strings).strip()
             url = urllib.parse.urljoin(self.__base_url, chapters[chapter - 1].td.a["href"])
             name = str(a[a.find(":") + 2:]).strip()
+            index = str(chapter).zfill(zeros)
             if name == '':
-                name = "chapter " + str(chapter).zfill(l)
-            yield Chapter(url, name)
+                name = "chapter " + index
+            yield Chapter(url, name, index)
         else:
             for i, _chapter in enumerate(chapters):
                 a = "".join(_chapter.td.strings).strip()
                 url = urllib.parse.urljoin(self.__base_url, _chapter.td.a["href"])
                 name = str(a[a.find(":") + 2:]).strip()
+                index = str(i + 1).zfill(zeros)
                 if name == '':
-                    name = "chapter " + str(i + 1).zfill(l)
-                yield Chapter(url, name)
+                    name = "chapter " + index
+                yield Chapter(url, name, index)
 
 
 class Chapter:
     __temp_dir = tempfile.TemporaryDirectory()
 
-    def __init__(self, url, title):
+    def __init__(self, url, title, index=None):
+        self.index = index
         self.title = title
         self.url = url
 
