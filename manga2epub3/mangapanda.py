@@ -14,7 +14,9 @@ class Manga:
     def __init__(self, url):
         self.url = url
         self.__base_url = "{0.scheme}://{0.netloc}/".format(urllib.parse.urlsplit(self.url))
-        self.__main_page = bs4.BeautifulSoup(urllib.request.urlopen(self.url), "html.parser")
+        reg = urllib.request.Request(self.url)
+        reg.add_header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0")
+        self.__main_page = bs4.BeautifulSoup(urllib.request.urlopen(reg), "html.parser")
         self.title = self.__main_page.find("h2", "aname").string.strip()
 
     def parse(self, chapter=None):
@@ -46,7 +48,9 @@ class Chapter:
 
     def parse(self, image=None):
         base_url = "{0.scheme}://{0.netloc}/".format(urllib.parse.urlsplit(self.url))
-        response = urllib.request.urlopen(self.url)
+        reg = urllib.request.Request(self.url)
+        reg.add_header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0")
+        response = urllib.request.urlopen(reg)
         soup = bs4.BeautifulSoup(response, "html.parser")
         img_tag = soup.find(id="img")
 
@@ -67,7 +71,9 @@ class Chapter:
             info = a_tag.get("href").split("/")
             if len(info) < 4:
                 break
-            response = urllib.request.urlopen(urllib.parse.urljoin(base_url, a_tag.get("href")))
+            reg = urllib.request.Request(urllib.parse.urljoin(base_url, a_tag.get("href")))
+            reg.add_header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0")
+            response = urllib.request.urlopen(reg)
             soup = bs4.BeautifulSoup(response, "html.parser")
             img_tag = soup.find(id="img")
 
