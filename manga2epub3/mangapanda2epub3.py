@@ -10,7 +10,7 @@ class Manga2epub3:
     __base_url = "http://www.mangapanda.com"
     __title_manga = "{0}"
     __title_manga_chapter = "{0} {1} - {2}"
-    __file_name_manga = __title_manga + "epub"
+    __file_name_manga = __title_manga + ".epub"
     __file_name_manga_chapter = __title_manga_chapter + ".epub"
 
     def __init__(self, manga_url, dic, separate=True, chapter=None, pool_size=None):
